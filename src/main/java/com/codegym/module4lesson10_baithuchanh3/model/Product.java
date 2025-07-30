@@ -11,14 +11,18 @@ public class Product {
     private String name;
     private double price;
     private String description;
+    private String imageUrl;
+
+
 
     public Product() {
     }
 
-    public Product(String name, double price, String description) {
+    public Product(String name, double price, String description, String imageUrl) {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -52,6 +56,14 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -74,5 +86,6 @@ public class Product {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
+
 
 }

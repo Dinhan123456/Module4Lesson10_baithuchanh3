@@ -53,5 +53,14 @@ public class ProductController {
         cart.decreaseProduct(productOptional.get());
         return "redirect:/shopping-cart";
     }
+    @GetMapping("/detail/{id}")
+    public ModelAndView viewProduct(@PathVariable Long id) {
+        Optional<Product> product = productService.findById(id);
+        if (!product.isPresent()) return new ModelAndView("/error_404");
+        ModelAndView mav = new ModelAndView("/detail");
+        mav.addObject("product", product.get());
+        return mav;
+    }
+
 
 }

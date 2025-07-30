@@ -1,28 +1,66 @@
-<h1>Your Cart</h1>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Giỏ hàng</title>
+  <style>
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+    .action-link {
+      padding: 4px 8px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 0 4px;
+    }
+  </style>
+</head>
+<body>
 
-<h3>Total Items: <span th:text="${cart.countItemQuantity()}"></span></h3>
-<h3>Total Products: <span th:text="${cart.countProductQuantity()}"></span></h3>
+<h2 style="text-align:center;">🛒 Giỏ hàng</h2>
 
-<table border="1">
+<table>
   <tr>
-    <th>Item</th>
-    <th>Quantity</th>
-    <th>Price</th>
+    <th>Ảnh</th>
+    <th>Sản phẩm</th>
+    <th>Số lượng</th>
+    <th>Giá</th>
+    <th>Thành tiền</th>
   </tr>
-  <tr th:each="product: ${cart.products}">
-    <td th:text="${product.getKey().name}"></td>
+  <tr th:each="entry : ${cart.products}">
+    <td><img th:src="${entry.key.imageUrl}" alt="Image"/></td>
+    <td th:text="${entry.key.name}"></td>
     <td>
-      <a th:href="@{/decrease/__${product.getKey().id}__}">-</a>
-      <span th:text="${product.getValue()}"></span>
-      <a th:href="@{/add/__${product.getKey().id}__(action='show')}">+</a>
+      <a th:href="@{/decrease/{id}(id=${entry.key.id})}" class="action-link">-</a>
+      <span th:text="${entry.value}"></span>
+      <a th:href="@{/add/{id}(id=${entry.key.id}, action='show')}" class="action-link">+</a>
     </td>
-    <td th:text="${product.getKey().price}"></td>
+    <td th:text="${entry.key.price} + ' đ'"></td>
+    <td th:text="${entry.key.price * entry.value} + ' đ'"></td>
   </tr>
   <tr>
-    <td>Total</td>
-    <td></td>
-    <td th:text="${cart.countTotalPayment()}"></td>
+    <td colspan="4" style="text-align:right;"><strong>Tổng cộng:</strong></td>
+    <td th:text="${cart.countTotalPayment()} + ' đ'"></td>
   </tr>
 </table>
 
-<p><a th:href="@{/shop}">Shop</a></p>
+<p style="text-align:center; margin-top:20px;">
+  <a th:href="@{/shop}">⬅ Tiếp tục mua hàng</a>
+</p>
+
+</body>
+</html>
